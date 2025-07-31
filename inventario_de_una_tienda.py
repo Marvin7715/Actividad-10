@@ -1,24 +1,59 @@
-lista_productos = []
+inventario = {}
 
-print (".........Inventario de productos........")
+print(".........Inventario de productos.........")
+cantidad = int(input("¿Cuántos productos desea ingresar?: "))
 
-for _ in range(productos):
-    print(f"producto {productos+1}: ")
-    productos = int(input("¿Cuántos productos desea ingresar?: "))
+for i in range(cantidad):
+    print(f"\nProducto #{i + 1}:")
 
-    codigo = input("Código del producto: ")
-    nombre_producto = input("Nombre del producto: ")
-    categoria = input ("¿Cúal es la categoria del producto?: ")
-    talla = input("Ingrese la talla del producto en letras 'Eje. M,S,L': ")
-    precio = int(input("Precio unitario mayor a 0, Q: "))
-    stock = int(input("Cantidad en stock: "))
+    while True:
+        codigo = input("Código del producto (ej. P001): ").strip()
+        if codigo in inventario:
+            print("Este código ya existe. Ingrese un código diferente.")
+        else:
+            break
 
+    nombre_producto = input("Nombre del producto: ").strip()
+    categoria = input("¿Cuál es la categoría del producto? (Hombre/Mujer/Niño): ").strip()
+    talla = input("Ingrese la talla del producto (S, M, L, XL): ").strip().upper()
 
-    inventario = {
-    "codigo": codigo,
-    "nombre_producto": nombre_producto,
-    "categoria": categoria,
-    "talla": talla,
-    "precio": precio,
-    "stock": stock
+    precio = float(input("Ingrese el precio unitario (mayor a Q0.00): Q"))
+    if precio <= 0:
+        print("El precio debe ser mayor a Q0.00. Se asignará Q0.01 por defecto.")
+        precio = 0.01
+
+    stock = int(input("Ingrese la cantidad en stock (entero positivo): "))
+    if stock < 0:
+        print("La cantidad debe ser un número entero positivo. Se asignará 0 por defecto.")
+        stock = 0
+
+    inventario[codigo] = {
+        "nombre": nombre_producto,
+        "categoria": categoria,
+        "talla": talla,
+        "precio": precio,
+        "stock": stock
     }
+
+print("\nLista de productos registrados:")
+for codigo, datos in inventario.items():
+    print(f"\nCódigo: {codigo}")
+    print(f"Nombre: {datos['nombre']}")
+    print(f"Categoría: {datos['categoria']}")
+    print(f"Talla: {datos['talla']}")
+    print(f"Precio unitario: Q{datos['precio']:.2f}")
+    print(f"Cantidad en stock: {datos['stock']}")
+
+print("\nBúsqueda de producto")
+buscado = input("Ingrese el código del producto que desea buscar: ").strip()
+
+if buscado in inventario:
+    producto = inventario[buscado]
+    print("\nProducto encontrado:")
+    print(f"Nombre: {producto['nombre']}")
+    print(f"Categoría: {producto['categoria']}")
+    print(f"Talla: {producto['talla']}")
+    print(f"Precio unitario: Q{producto['precio']:.2f}")
+    print(f"Cantidad en stock: {producto['stock']}")
+else:
+    print("Producto no encontrado.")

@@ -57,3 +57,21 @@ if buscado in inventario:
     print(f"Cantidad en stock: {producto['stock']}")
 else:
     print("Producto no encontrado.")
+
+valor_total = 0
+for datos in inventario.values():
+    valor_total += datos['precio'] * datos['stock']
+
+print(f"\nValor total del inventario: Q{valor_total:.2f}")
+
+categorias = {}
+for datos in inventario.values():
+    categoria = datos['categoria']
+    if categoria in categorias:
+        categorias[categoria] += 1
+    else:
+        categorias[categoria] = 1
+
+print("\nCantidad de productos por categoría:")
+for categoria, cantidad in categorias.items():
+    print(f"{categoria}: {cantidad} productos")
